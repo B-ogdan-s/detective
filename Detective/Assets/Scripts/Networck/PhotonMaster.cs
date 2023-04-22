@@ -2,6 +2,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections.Generic;
+using ExitGames.Client.Photon;
 
 public class PhotonMaster : MonoBehaviourPunCallbacks
 {
@@ -9,6 +11,10 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
     private NetworkUI _networkUI;
     private bool _isStart = true;
+
+    public Action<List<Photon.Realtime.RoomInfo>> UpdateRoomList;
+    public Action JoinRoom;
+    public Action CloseWaitingMenu;
 
     private void Awake()
     {
@@ -29,9 +35,15 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectToRegion(_regionID);
     }
 
-    public void CreateRoom(string nameRoom)
+    public void CreateRoom(RoomInfo roomInfo)
     {
-        PhotonNetwork.CreateRoom(nameRoom);
+        PhotonNetwork.CreateRoom(roomInfo.RoomName);
+    }
+
+    
+    public void CloseRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 
     #region Callbacks
@@ -39,6 +51,7 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         _networkUI.Conected();
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -48,8 +61,6 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
             _isStart = false;
             return;
         }
-
-        Debug.Log(cause);
 
         _networkUI.Disconnected(cause);
     }
@@ -61,11 +72,23 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        base.OnCreatedRoom();
+        JoinRoom?.Invoke();
     }
+
+    public override void OnLeftRoom()
+    {
+        Debug.Log("0000000000000000");
+        CloseWaitingMenu?.Invoke();
+    }
+
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        base.OnCreateRoomFailed(returnCode, message);
+        Debug.Log(message);
+    }
+
+    public override void OnRoomListUpdate(List<Photon.Realtime.RoomInfo> roomList)
+    {
+        UpdateRoomList?.Invoke(roomList);
     }
 
     #endregion
