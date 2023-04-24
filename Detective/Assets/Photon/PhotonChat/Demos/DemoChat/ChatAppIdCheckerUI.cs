@@ -34,7 +34,7 @@ namespace Photon.Chat.Demo
             showWarning = string.IsNullOrEmpty(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat);
             if (showWarning)
             {
-                descriptionText = "<Color=Red>WARNING:</Color>\nPlease setup a Chat AppId in the PhotonServerSettings file.";
+                descriptionText = "<_color=Red>WARNING:</_color>\nPlease setup a Chat AppId in the PhotonServerSettings file.";
             }
             #else
             ChatGui cGui = FindObjectOfType<ChatGui>(); // TODO: this could be a serialized reference instead of finding this each time

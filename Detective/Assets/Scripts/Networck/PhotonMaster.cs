@@ -37,7 +37,18 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
     public void CreateRoom(RoomInfo roomInfo)
     {
-        PhotonNetwork.CreateRoom(roomInfo.RoomName);
+        Hashtable table = new Hashtable();
+
+        string complexity = roomInfo.GameComplexity.ToString();
+        Debug.Log(complexity);
+
+        table.Add("complexity", complexity);
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.CustomRoomProperties = table;
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "complexity" };
+
+        PhotonNetwork.CreateRoom(roomInfo.RoomName, roomOptions);
     }
 
     
