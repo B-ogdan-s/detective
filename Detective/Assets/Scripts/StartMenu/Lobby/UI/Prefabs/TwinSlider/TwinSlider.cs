@@ -5,68 +5,79 @@ using UnityEngine.UI;
 public class TwinSlider : MonoBehaviour {
 
 
-	[SerializeField]
-	private Slider _sliderOne;
+	[SerializeField] private Slider _sliderOne;
+	[SerializeField] private Slider _sliderTwo;
 
-	[SerializeField]
-	private Slider _sliderTwo;
+	[SerializeField] private Image _background;
+	[SerializeField] private Image _filler;
 
-	[SerializeField]
-	private Image _background;
+	[SerializeField] private Color _color;
 
-	[SerializeField]
-	private Image _filler;
+    [SerializeField] private int _min = 0;
+	[SerializeField] private int _max = 1;
 
-	[SerializeField]
-	private Color _color;
+	[SerializeField] private TMPro.TextMeshProUGUI _minPersonText;
+	[SerializeField] private TMPro.TextMeshProUGUI _maxPersonText;
 
-	public float Min = 0f;
+	[SerializeField] private string _addTextToMin;
+	[SerializeField] private string _addTextToMax;
 
-	public float Max = 1f;
-
-	public float Border = 3f;
+	private int _minValue;
+	private int _maxValue;
 
 	private RectTransform _fillerRect;
-
 	private float _width;
 
-	public Action<float, float> OnSliderChange;
+	public Action<int, int> OnSliderChange;
 
 	private void Awake () {
 		_fillerRect = _filler.GetComponent<RectTransform> ();
-		_width = GetComponent<RectTransform> ().sizeDelta.x / 2f;
-		_sliderOne.minValue = Min;
-		_sliderOne.maxValue = Max;
-		_sliderTwo.minValue = Min;
-		_sliderTwo.maxValue = Max;
+
+		_width = GetComponent<RectTransform> ().rect.width / (float)(_max - _min);
+
+		SetSliderSettings(_sliderOne, _min);
+		SetSliderSettings(_sliderTwo, _max);
+
+		_minValue = _min;
+		_maxValue = _max;
+
 		_filler.color = _color;
-		if (OnSliderChange == null) {
-			OnSliderChange += delegate { };
-		}
 	}
 
-	public void OnCorrectSliderOne (float value) {
-		DrawFiller (_sliderOne.handleRect.localPosition, _sliderTwo.handleRect.localPosition);
-		if (value > _sliderTwo.value - Border) {
-			_sliderOne.value = _sliderTwo.value - Border;
-		} else {
-			OnSliderChange?.Invoke (_sliderOne.value, _sliderTwo.value);
-		}
+	private void SetSliderSettings(Slider slider, int startValue)
+	{
+		slider.minValue = _min;
+		slider.maxValue = _max;
+		slider.value = startValue;
+
+		slider.onValueChanged.AddListener(OnCorrectSlider);
 	}
 
-	public void OnCorrectSliderTwo (float value) {
-		DrawFiller (_sliderOne.handleRect.localPosition, _sliderTwo.handleRect.localPosition);
-		if (value < _sliderOne.value + Border) {
-			_sliderTwo.value = _sliderOne.value + Border;
-		} else {
-			OnSliderChange?.Invoke (_sliderOne.value, _sliderTwo.value);
-		}
-	}
-	void DrawFiller (Vector3 one, Vector3 two) {
-		float left = Mathf.Abs (_width + one.x);
-		float right = Mathf.Abs (_width - two.x);
-		_fillerRect.offsetMax = new Vector2 (-right, 0f);
-		_fillerRect.offsetMin = new Vector2 (left, 0f);
+	public void OnCorrectSlider (float value) {
+
+		if(_sliderOne.value < _sliderTwo.value)
+		{
+			_minValue = (int)_sliderOne.value;
+            _maxValue = (int)_sliderTwo.value;
+        }
+		else
+		{
+            _minValue = (int)_sliderTwo.value;
+            _maxValue = (int)_sliderOne.value;
+        }
+
+		_minPersonText.text = _addTextToMin + " " + _minValue;
+		_maxPersonText.text = _addTextToMax + " " + _maxValue;
+
+        DrawFiller(_minValue, _maxValue);
+        OnSliderChange?.Invoke(_minValue, _maxValue);
+    }
+
+	void DrawFiller (float min, float max) {
+
+
+		_fillerRect.offsetMin = new Vector2 ((min - _min)  * _width, 0f);
+		_fillerRect.offsetMax = new Vector2 (-(_max - max)  * _width, 0f);
 	}
 
 }

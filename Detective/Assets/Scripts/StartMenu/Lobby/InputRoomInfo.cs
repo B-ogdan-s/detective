@@ -8,8 +8,9 @@ using UnityEngine.UI;
 public class InputRoomInfo : MonoBehaviour
 {
     [SerializeField] private PhotonMaster _photonMaster;
-
+    [SerializeField] private TwinSlider _twinSlider; 
     [SerializeField] private TMP_InputField _inputNameRoom;
+
     [SerializeField] private ButtonType[] _buttonsList;
 
     private RoomInfo _roomInfo= new RoomInfo();
@@ -20,8 +21,11 @@ public class InputRoomInfo : MonoBehaviour
         {
             _roomInfo.RoomName = name;
         });
-        
-        foreach(var button in _buttonsList)
+
+        _twinSlider.OnSliderChange += InputSliderValue;
+
+
+        foreach (var button in _buttonsList)
         {
             button.ButtonClick += OnButtonClick;
         }
@@ -50,12 +54,19 @@ public class InputRoomInfo : MonoBehaviour
         _photonMaster.CreateRoom(_roomInfo);
     }
 
+    private void InputSliderValue(int min, int max)
+    {
+
+    }
+
     private void OnDestroy()
     {
         foreach (var button in _buttonsList)
         {
             button.ButtonClick -= OnButtonClick;
         }
+
+        _twinSlider.OnSliderChange -= InputSliderValue;
     }
 }
 
