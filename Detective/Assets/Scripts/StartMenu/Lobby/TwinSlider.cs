@@ -13,8 +13,8 @@ public class TwinSlider : MonoBehaviour {
 
 	[SerializeField] private Color _color;
 
-    [SerializeField] private int _min = 0;
-	[SerializeField] private int _max = 1;
+    [SerializeField] private byte _min = 0;
+	[SerializeField] private byte _max = 1;
 
 	[SerializeField] private TMPro.TextMeshProUGUI _minPersonText;
 	[SerializeField] private TMPro.TextMeshProUGUI _maxPersonText;
@@ -22,13 +22,13 @@ public class TwinSlider : MonoBehaviour {
 	[SerializeField] private string _addTextToMin;
 	[SerializeField] private string _addTextToMax;
 
-	private int _minValue;
-	private int _maxValue;
+	private byte _minValue;
+	private byte _maxValue;
 
 	private RectTransform _fillerRect;
 	private float _width;
 
-	public Action<int, int> OnSliderChange;
+	public Action<byte, byte> OnSliderChange;
 
 	private void Awake () {
 		_fillerRect = _filler.GetComponent<RectTransform> ();
@@ -44,6 +44,14 @@ public class TwinSlider : MonoBehaviour {
 		_filler.color = _color;
 	}
 
+	private void Start()
+	{
+		OnSliderChange?.Invoke(_minValue, _maxValue);
+
+        _minPersonText.text = _addTextToMin + " " + _minValue;
+        _maxPersonText.text = _addTextToMax + " " + _maxValue;
+    }
+
 	private void SetSliderSettings(Slider slider, int startValue)
 	{
 		slider.minValue = _min;
@@ -57,13 +65,13 @@ public class TwinSlider : MonoBehaviour {
 
 		if(_sliderOne.value < _sliderTwo.value)
 		{
-			_minValue = (int)_sliderOne.value;
-            _maxValue = (int)_sliderTwo.value;
+			_minValue = (byte)_sliderOne.value;
+            _maxValue = (byte)_sliderTwo.value;
         }
 		else
 		{
-            _minValue = (int)_sliderTwo.value;
-            _maxValue = (int)_sliderOne.value;
+            _minValue = (byte)_sliderTwo.value;
+            _maxValue = (byte)_sliderOne.value;
         }
 
 		_minPersonText.text = _addTextToMin + " " + _minValue;

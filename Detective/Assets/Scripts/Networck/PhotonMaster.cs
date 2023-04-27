@@ -13,7 +13,7 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
     private bool _isStart = true;
 
     public Action<List<Photon.Realtime.RoomInfo>> UpdateRoomList;
-    public Action JoinRoom;
+    public Action JoinRoomAction;
     public Action CloseWaitingMenu;
 
     private void Awake()
@@ -24,7 +24,12 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
     public void JoinRandomRoom()
     {
-        PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();
+    }
+
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
     }
 
     public void Conect()
@@ -43,10 +48,13 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
         Debug.Log(complexity);
 
         table.Add("complexity", complexity);
+        table.Add("password", roomInfo.RoomPasword);
+        table.Add("minPeople", roomInfo.MinPeople);
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.CustomRoomProperties = table;
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "complexity" };
+        roomOptions.MaxPlayers = roomInfo.MaxPeople;
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "complexity", "minPeople", "password" };
 
         PhotonNetwork.CreateRoom(roomInfo.RoomName, roomOptions);
     }
@@ -83,12 +91,16 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        JoinRoom?.Invoke();
+        JoinRoomAction?.Invoke();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        JoinRoomAction?.Invoke();
     }
 
     public override void OnLeftRoom()
     {
-        Debug.Log("0000000000000000");
         CloseWaitingMenu?.Invoke();
     }
 

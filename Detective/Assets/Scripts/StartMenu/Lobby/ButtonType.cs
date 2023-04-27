@@ -7,17 +7,17 @@ using UnityEngine.UI;
 public class ButtonType : MonoBehaviour
 {
     [SerializeField] GameComplexity _gameType;
-    private Button _button;
+    [SerializeField] private Button _button;
 
-    public System.Action<GameComplexity, ButtonType> ButtonClick;
+    public GameComplexity GameType => _gameType;
 
-    private void Start()
+    public System.Action<ButtonType> ButtonClick;
+
+    private void Awake()
     {
-        _button = GetComponent<Button>();
-
         _button.onClick.AddListener(() =>
         {
-            ButtonClick?.Invoke(_gameType, this);
+            ButtonClick?.Invoke(this);
         });
     }
 

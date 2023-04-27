@@ -18,7 +18,7 @@ public class StartMenuUI : MonoBehaviour
         _lobbyCanvas.enabled = false;
         _waitingMenu.enabled = false;
 
-        _photonMaster.JoinRoom += OpenWaitingMenu;
+        _photonMaster.JoinRoomAction += OpenWaitingMenu;
         _photonMaster.CloseWaitingMenu += CloseWaitingMenu;
     }
 
@@ -64,7 +64,7 @@ public class StartMenuUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        _photonMaster.JoinRoom -= OpenWaitingMenu;
+        _photonMaster.JoinRoomAction -= OpenWaitingMenu;
         _photonMaster.CloseWaitingMenu -= CloseWaitingMenu;
 
     }

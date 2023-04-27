@@ -918,3 +918,4 @@ MonoBehaviour:
   _numberPeople: {fileID: 4116698930007926390}
   _addTextToRoomName: 'Secret case:'
   _addTextToRoomComplexty: 'Complexity:'
+  _joinToRoomButton: {fileID: 8341937512331141484}

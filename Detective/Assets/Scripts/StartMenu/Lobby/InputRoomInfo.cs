@@ -10,6 +10,7 @@ public class InputRoomInfo : MonoBehaviour
     [SerializeField] private PhotonMaster _photonMaster;
     [SerializeField] private TwinSlider _twinSlider; 
     [SerializeField] private TMP_InputField _inputNameRoom;
+    [SerializeField] private TMP_InputField _inputPasswordRoom;
 
     [SerializeField] private ButtonType[] _buttonsList;
 
@@ -17,24 +18,29 @@ public class InputRoomInfo : MonoBehaviour
 
     private void Awake()
     {
+        _twinSlider.OnSliderChange += InputSliderValue;
+
         _inputNameRoom.onEndEdit.AddListener((string name) =>
         {
             _roomInfo.RoomName = name;
         });
 
-        _twinSlider.OnSliderChange += InputSliderValue;
-
+        _inputPasswordRoom.onEndEdit.AddListener((string password) =>
+        {
+            _roomInfo.RoomPasword = password;
+        });
 
         foreach (var button in _buttonsList)
         {
             button.ButtonClick += OnButtonClick;
         }
 
+        OnButtonClick(_buttonsList[_buttonsList.Length - 1]);
     }
 
-    private void OnButtonClick(GameComplexity type, ButtonType button)
+    private void OnButtonClick( ButtonType button)
     {
-        _roomInfo.GameComplexity = type;
+        _roomInfo.GameComplexity = button.GameType;
         foreach (var b in _buttonsList)
         {
             b.Change(true);
@@ -54,9 +60,10 @@ public class InputRoomInfo : MonoBehaviour
         _photonMaster.CreateRoom(_roomInfo);
     }
 
-    private void InputSliderValue(int min, int max)
+    private void InputSliderValue(byte min, byte max)
     {
-
+        _roomInfo.MinPeople = min;
+        _roomInfo.MaxPeople = max;
     }
 
     private void OnDestroy()
@@ -82,7 +89,11 @@ public enum GameComplexity
 public class RoomInfo
 {
     public string RoomName;
-    public string RoomPasword;
     public GameComplexity GameComplexity;
+    public string RoomPasword = "";
+
+    public byte MinPeople;
+    public byte MaxPeople;
+
 }
 

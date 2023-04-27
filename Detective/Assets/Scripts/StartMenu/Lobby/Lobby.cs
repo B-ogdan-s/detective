@@ -8,6 +8,7 @@ public class Lobby : MonoBehaviour
 {
     [SerializeField] private PhotonMaster _photonMaster;
 
+    [SerializeField] private InputPasswordToRoom _inputPasswordToRooml;
     [SerializeField] private Room _roomPrefab;
     [SerializeField] private Transform _roomParents;
 
@@ -21,6 +22,8 @@ public class Lobby : MonoBehaviour
 
     private void UpdateRoomList(List<Photon.Realtime.RoomInfo> roomList)
     {
+        _inputPasswordToRooml.StartSettings(_photonMaster.JoinRoom);
+
         foreach (Photon.Realtime.RoomInfo room in roomList)
         {
             if(room.RemovedFromList)
@@ -39,10 +42,17 @@ public class Lobby : MonoBehaviour
             Room newRoom = Instantiate(_roomPrefab);
             newRoom.transform.SetParent(_roomParents);
             newRoom.transform.localScale = new Vector3(1, 1, 1);
-
             newRoom.SetRoomInfo(room);
+            newRoom.PasswordAction += OnPrivateRoom;
+
+            newRoom.InstaniateButton(_photonMaster.JoinRoom);
             _dictionaryRoomInfo.Add(room.Name, newRoom);
         }
+    }
+
+    private void OnPrivateRoom(string password, string name)
+    {
+        _inputPasswordToRooml.OpenPassword(password, name);
     }
 
     private void OnDestroy()
