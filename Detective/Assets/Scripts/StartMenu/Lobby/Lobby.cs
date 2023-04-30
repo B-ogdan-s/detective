@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class Lobby : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Lobby : MonoBehaviour
 
     [SerializeField] private InputPasswordToRoom _inputPasswordToRooml;
     [SerializeField] private Room _roomPrefab;
+    [SerializeField] private Filter _filter;
+    [SerializeField] private ErrorPanel _errorPanel;
     [SerializeField] private Transform _roomParents;
 
     private Dictionary<string, Room> _dictionaryRoomInfo = new Dictionary<string, Room>();
@@ -18,6 +21,8 @@ public class Lobby : MonoBehaviour
     private void Awake()
     {
         _photonMaster.UpdateRoomList += UpdateRoomList;
+        _filter.UpdateFilterAction += RoomFilter;
+        _filter.FilterByNameAction += JoinToRoom;
     }
 
     private void UpdateRoomList(List<Photon.Realtime.RoomInfo> roomList)
@@ -43,20 +48,50 @@ public class Lobby : MonoBehaviour
             newRoom.transform.SetParent(_roomParents);
             newRoom.transform.localScale = new Vector3(1, 1, 1);
             newRoom.SetRoomInfo(room);
-            newRoom.PasswordAction += OnPrivateRoom;
+            newRoom.PasswordAction += JoinToRoom;
 
-            newRoom.InstaniateButton(_photonMaster.JoinRoom);
             _dictionaryRoomInfo.Add(room.Name, newRoom);
+
+            RoomFilter(newRoom);
         }
     }
 
-    private void OnPrivateRoom(string password, string name)
+    private void RoomFilter()
     {
-        _inputPasswordToRooml.OpenPassword(password, name);
+        foreach(var r in _dictionaryRoomInfo)
+        {
+            r.Value.gameObject.SetActive(_filter.CheckFilter(r.Value.GetRoomInfo));
+        }
+    }
+
+    private void RoomFilter(Room room)
+    {
+        room.gameObject.SetActive(_filter.CheckFilter(room.GetRoomInfo));
+    }
+
+    private void JoinToRoom(string roomName)
+    {
+        if(_dictionaryRoomInfo.ContainsKey(roomName))
+        {
+            string password = (string)_dictionaryRoomInfo[roomName].GetRoomInfo.CustomProperties["password"];
+
+            if ((bool)_dictionaryRoomInfo[roomName].GetRoomInfo.CustomProperties["isPassword"])
+            {
+                _inputPasswordToRooml.OpenPassword(password, roomName);
+                return;
+            }
+            _photonMaster.JoinRoom(roomName);
+        }
+        else
+        {
+            _errorPanel.openErrorPanel("This room name does not exist");
+        }
     }
 
     private void OnDestroy()
     {
         _photonMaster.UpdateRoomList -= UpdateRoomList;
+        _filter.UpdateFilterAction -= RoomFilter;
+        _filter.FilterByNameAction -= JoinToRoom;
     }
 }

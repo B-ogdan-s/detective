@@ -8,13 +8,13 @@ public class NetworkUI : MonoBehaviour
     [SerializeField] private Canvas _disconectCanvas;
     [SerializeField] private Canvas _waitingCanvas;
 
-    public void StartConected()
+    public void OpenWaiting()
     {
         _disconectCanvas.enabled = false;
         _waitingCanvas.enabled = true;
     }
 
-    public void Conected()
+    public void CloseAll()
     {
         _waitingCanvas.enabled = false;
         _disconectCanvas.enabled = false;

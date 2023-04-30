@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class InputPasswordToRoom : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _inputPassword;
+    [SerializeField] private ErrorPanel _errorPanel;
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _enterPassword;
     private Canvas _canvas;
@@ -43,7 +44,8 @@ public class InputPasswordToRoom : MonoBehaviour
             }
             else
             {
-                
+                _errorPanel.openErrorPanel("This password does not match");
+                _inputPassword.text = "";
             }
         });
     }

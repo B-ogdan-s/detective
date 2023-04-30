@@ -28,7 +28,9 @@ public class TwinSlider : MonoBehaviour {
 	private RectTransform _fillerRect;
 	private float _width;
 
-	public Action<byte, byte> OnSliderChange;
+	public byte MinValue => _minValue;
+	public byte MaxValue => _maxValue;
+
 
 	private void Awake () {
 		_fillerRect = _filler.GetComponent<RectTransform> ();
@@ -46,13 +48,11 @@ public class TwinSlider : MonoBehaviour {
 
 	private void Start()
 	{
-		OnSliderChange?.Invoke(_minValue, _maxValue);
-
         _minPersonText.text = _addTextToMin + " " + _minValue;
         _maxPersonText.text = _addTextToMax + " " + _maxValue;
     }
 
-	private void SetSliderSettings(Slider slider, int startValue)
+	private void SetSliderSettings(Slider slider, byte startValue)
 	{
 		slider.minValue = _min;
 		slider.maxValue = _max;
@@ -78,10 +78,20 @@ public class TwinSlider : MonoBehaviour {
 		_maxPersonText.text = _addTextToMax + " " + _maxValue;
 
         DrawFiller(_minValue, _maxValue);
-        OnSliderChange?.Invoke(_minValue, _maxValue);
     }
 
-	void DrawFiller (float min, float max) {
+	public void Clear()
+	{
+		_sliderOne.value = _min;
+		_sliderTwo.value = _max;
+	}
+	public void Clear(byte min, byte max)
+	{
+		_sliderOne.value = min;
+		_sliderTwo.value = max;
+	}
+
+	private void DrawFiller (float min, float max) {
 
 
 		_fillerRect.offsetMin = new Vector2 ((min - _min)  * _width, 0f);
