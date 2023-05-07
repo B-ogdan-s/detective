@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Room : MonoBehaviour
+public class RoomPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _nameRoom;
     [SerializeField] private TextMeshProUGUI _complexity;
@@ -33,15 +33,15 @@ public class Room : MonoBehaviour
         _complexity.text = _addTextToRoomComplexty + "\n\"" + g.ToString() + "\"";
         _minAndMaxPeople.text = (byte)_room.CustomProperties["minPeople"] + "-" + _room.MaxPlayers;
 
+        _lockIcon.enabled = (bool)_room.CustomProperties["isPassword"];
+    }
+
+    public void SetButtonAction()
+    {
         _joinToRoomButton.onClick.AddListener(() =>
         {
             PasswordAction?.Invoke(_room.Name);
-
         });
-
-        Debug.Log((bool)_room.CustomProperties["isPassword"]);
-
-        _lockIcon.enabled = (bool)_room.CustomProperties["isPassword"];
     }
 
     private void OnDestroy()

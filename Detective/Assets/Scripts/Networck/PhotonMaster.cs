@@ -68,7 +68,6 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
         _networkUI.CloseAll();
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
-
     public override void OnDisconnected(DisconnectCause cause)
     {
         if(_isStart)
@@ -79,13 +78,11 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
         _networkUI.Disconnected(cause);
     }
-
     public override void OnCreatedRoom()
     {
         JoinRoomAction?.Invoke();
         _networkUI.CloseAll();
     }
-
     public override void OnJoinedRoom()
     {
         JoinRoomAction?.Invoke();
@@ -96,22 +93,28 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
         _networkUI.CloseAll();
         _errorPanel.openErrorPanel(message);
     }
-
     public override void OnLeftRoom()
     {
         CloseWaitingMenu?.Invoke();
     }
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("&&&&&&&&&&&&&&&&");
+        Debug.Log($"---- {PhotonNetwork.PlayerList.Length} ------");
     }
-
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("_________________");
+    }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         _networkUI.CloseAll();
         _errorPanel.openErrorPanel(message);
     }
-
+    public override void OnLeftLobby()
+    {
+        Debug.Log("________________________________________________________________");
+    }
     public override void OnRoomListUpdate(List<Photon.Realtime.RoomInfo> roomList)
     {
         UpdateRoomList?.Invoke(roomList);

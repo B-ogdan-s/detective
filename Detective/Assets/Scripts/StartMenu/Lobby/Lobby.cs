@@ -10,12 +10,12 @@ public class Lobby : MonoBehaviour
     [SerializeField] private PhotonMaster _photonMaster;
 
     [SerializeField] private InputPasswordToRoom _inputPasswordToRooml;
-    [SerializeField] private Room _roomPrefab;
+    [SerializeField] private RoomPanel _roomPrefab;
     [SerializeField] private Filter _filter;
     [SerializeField] private ErrorPanel _errorPanel;
     [SerializeField] private Transform _roomParents;
 
-    private Dictionary<string, Room> _dictionaryRoomInfo = new Dictionary<string, Room>();
+    private Dictionary<string, RoomPanel> _dictionaryRoomInfo = new Dictionary<string, RoomPanel>();
 
 
     private void Awake()
@@ -44,10 +44,13 @@ public class Lobby : MonoBehaviour
                 continue;
             }
 
-            Room newRoom = Instantiate(_roomPrefab);
+            Debug.Log(room.Name);
+
+            RoomPanel newRoom = Instantiate(_roomPrefab);
             newRoom.transform.SetParent(_roomParents);
             newRoom.transform.localScale = new Vector3(1, 1, 1);
             newRoom.SetRoomInfo(room);
+            newRoom.SetButtonAction();
             newRoom.PasswordAction += JoinToRoom;
 
             _dictionaryRoomInfo.Add(room.Name, newRoom);
@@ -64,7 +67,7 @@ public class Lobby : MonoBehaviour
         }
     }
 
-    private void RoomFilter(Room room)
+    private void RoomFilter(RoomPanel room)
     {
         room.gameObject.SetActive(_filter.CheckFilter(room.GetRoomInfo));
     }
