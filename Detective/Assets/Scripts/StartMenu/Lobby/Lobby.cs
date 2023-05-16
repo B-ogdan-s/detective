@@ -7,7 +7,7 @@ using WebSocketSharp;
 
 public class Lobby : MonoBehaviour
 {
-    [SerializeField] private PhotonMaster _photonMaster;
+    [SerializeField] private PhotonMasterStartMenu _photonMaster;
 
     [SerializeField] private InputPasswordToRoom _inputPasswordToRooml;
     [SerializeField] private RoomPanel _roomPrefab;

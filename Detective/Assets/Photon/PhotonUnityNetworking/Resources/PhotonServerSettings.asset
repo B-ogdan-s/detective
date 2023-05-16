@@ -41,6 +41,15 @@ MonoBehaviour:
   - RespawnSpaceship
   - TransitionToTheGameStage
   - RPC_TransitionToTheGameStage
+  - SetCrime
+  - RPC_CheckCrime
+  - RPC_InputRezultCheckCrime
+  - RPC_SetGameInfo
+  - CheckTheReadinessOfAllPlayers
+  - RPC_SetGameInfoTest
+  - RPC_ClearPlayerCards
+  - RPC_SetPlayerCartInfo
+  - RPC_SetPlayerCardInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

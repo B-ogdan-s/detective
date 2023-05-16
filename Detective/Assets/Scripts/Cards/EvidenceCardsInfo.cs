@@ -1,26 +1,24 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Evidence Cards", menuName = "Cards/Evidence Cards")]
 public class EvidenceCardsInfo : ScriptableObject
 {
-    [SerializeField] private ushort _id;
-    [SerializeField, Min(1)] private byte _price;
-    [SerializeField] private string _text;
-    [SerializeField] private TypeOfEvidence _typeOfEvidence;
+    [SerializeField] private CardInfoClass _cardInfoClass;
+
+    public CardInfoClass CardInfoClass => _cardInfoClass;
 }
 
-[Flags]
-public enum TypeOfEvidence
+
+[System.Serializable]
+public class CardInfoClass
 {
-    None = 0,
-    P0 = 1,
-    P1 = 2,
-    P2 = 4,
-    P3 = 8,
-    P4 = 16,
-    P5 = 32,
+    [Min(1)] public byte Price;
+
+    [TextArea(6, 15)]
+    [Tooltip("<b> text </b> - make text thick. \n" +
+        "<i> text </i> - make text italic. \n" +
+        "<color=colorText> text </color> - make text a specific color.")]
+    public string Text;
+    [Min(1)] public byte BackgroundID;
 }
 

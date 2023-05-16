@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e759ed623fcbbc0458007db7afa7ec0f, type: 3}
-  m_Name: Card_001
+  m_Name: Card_012
   m_EditorClassIdentifier: 
-  _id: 0
-  _price: 1
-  _text: 
-  _typeOfEvidence: 0
+  _cardInfoClass:
+    Price: 1
+    Text: Card_012
+    BackgroundID: 0

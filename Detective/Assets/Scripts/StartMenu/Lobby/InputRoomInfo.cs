@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class InputRoomInfo : MonoBehaviour
 {
-    [SerializeField] private PhotonMaster _photonMaster;
+    [SerializeField] private PhotonMasterStartMenu _photonMaster;
     [SerializeField] private TwinSlider _twinSlider; 
     [SerializeField] private TMP_InputField _inputNameRoom;
     [SerializeField] private TMP_InputField _inputPasswordRoom;
@@ -38,7 +38,6 @@ public class InputRoomInfo : MonoBehaviour
             return;
         }
 
-        Debug.Log(_complexityButton.GetGameComplexity);
 
         _roomInfo.MinPeople = _twinSlider.MinValue;
         _roomInfo.MaxPeople = _twinSlider.MaxValue;

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 
-public class PhotonMaster : MonoBehaviourPunCallbacks
+public class PhotonMasterStartMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] private string _regionID;
     [SerializeField] private ErrorPanel _errorPanel;
@@ -49,6 +49,7 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.CustomRoomProperties = table;
+        roomOptions.PublishUserId = true;
         roomOptions.MaxPlayers = roomInfo.MaxPeople;
         roomOptions.CustomRoomPropertiesForLobby = new string[] { "complexity", "minPeople", "password", "isPassword" };
 
@@ -82,11 +83,13 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
     {
         JoinRoomAction?.Invoke();
         _networkUI.CloseAll();
+        PlayerData.GameComplexity = (GameComplexity)PhotonNetwork.CurrentRoom.CustomProperties["complexity"];
     }
     public override void OnJoinedRoom()
     {
         JoinRoomAction?.Invoke();
         _networkUI.CloseAll();
+        PlayerData.GameComplexity = (GameComplexity)PhotonNetwork.CurrentRoom.CustomProperties["complexity"];
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -99,8 +102,7 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("&&&&&&&&&&&&&&&&");
-        Debug.Log($"---- {PhotonNetwork.PlayerList.Length} ------");
+
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {

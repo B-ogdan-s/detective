@@ -9,7 +9,7 @@ public class StartMenuUI : MonoBehaviour
     [SerializeField] private Canvas _createRoom;
     [SerializeField] private Canvas _waitingMenu;
 
-    [SerializeField] private PhotonMaster _photonMaster;
+    [SerializeField] private PhotonMasterStartMenu _photonMaster;
 
     private void Awake()
     {
