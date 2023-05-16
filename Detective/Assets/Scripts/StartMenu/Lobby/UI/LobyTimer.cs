@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class Timer : MonoBehaviour, IPunObservable
+public class LobyTimer : MonoBehaviour, IPunObservable
 {
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField, Min(0)] private byte _timerValue;
@@ -22,8 +22,9 @@ public class Timer : MonoBehaviour, IPunObservable
         private set 
         { 
             _time = value; 
-            if(value == 0)
+            if(value == 0 && PhotonNetwork.IsMasterClient)
             {
+                Debug.Log("2");
                 EndTimer?.Invoke();
             }
         }

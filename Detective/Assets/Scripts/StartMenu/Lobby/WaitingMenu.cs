@@ -6,7 +6,7 @@ using Photon.Realtime;
 public class WaitingMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _playersText;
-    [SerializeField] private Timer _timer;
+    [SerializeField] private LobyTimer _timer;
     [SerializeField] private string _sceneName;
 
     Photon.Realtime.Room _room;
@@ -51,7 +51,7 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
     private void UpdateRoomInfo(byte numPlayers)
     {
         if(_maxPeople == _minPeople)
-            _playersText.text = $"{numPlayers}/({_minPeople})";
+            _playersText.text = $"{numPlayers}/{_minPeople}";
         else
             _playersText.text = $"{numPlayers}/({_minPeople}-{_maxPeople})";
 
@@ -65,9 +65,12 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
             _timer.StopTimer();
         }
 
+        Debug.Log(numPlayers + ";    "  + _maxPeople);
+
         if(numPlayers == _maxPeople)
         {
             _timer.StopTimer();
+            Debug.Log("1");
             TransitionToTheGameStage();
         }
     }
@@ -81,12 +84,13 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_TransitionToTheGameStage()
     {
+        Debug.Log("Fack!!!");
         PhotonNetwork.LoadLevel(_sceneName);
     }
 
     private void OnDestroy()
     {
-        _timer.EndTimer += TransitionToTheGameStage;
+        _timer.EndTimer -= TransitionToTheGameStage;
     }
 
 }

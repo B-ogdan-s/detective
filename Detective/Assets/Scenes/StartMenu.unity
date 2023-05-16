@@ -6784,7 +6784,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 782659323}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -9950,7 +9950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114648218509591090, guid: 460984f0e714049d7bc1d18b507c0667, type: 3}
       propertyPath: _min
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114648218509591090, guid: 460984f0e714049d7bc1d18b507c0667, type: 3}
       propertyPath: Border

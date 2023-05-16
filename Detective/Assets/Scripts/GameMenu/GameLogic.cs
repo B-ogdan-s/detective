@@ -17,6 +17,7 @@ public class GameLogic : MonoBehaviour
         _playrsNum++;
         if(_playrsNum == PhotonNetwork.PlayerList.Length)
         {
+            _playrsNum = 0;
             _cardsManager.CardDistribution();
         }
 
