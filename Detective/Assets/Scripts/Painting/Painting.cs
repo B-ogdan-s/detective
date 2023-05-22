@@ -1,33 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Painting : MonoBehaviour
+public class Painting : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [SerializeField, Min(1)] private int _sterWidth;
-    [SerializeField, Min(1)] private int _startHeight;
-    [SerializeField, Range(0.1f, 1f)] private float _compression;
-    [SerializeField] private RawImage _rawImage;
+    [SerializeField, Min(1)] private int _width;
+    [SerializeField, Min(1)] private int _height;
+    [SerializeField, Range(0.1f, 2f)] private float _compression;
+    [SerializeField] private RawImage[] _rawImages;
+    [SerializeField] private RectTransform _sizeRectTransform;
 
-    [SerializeField] private int _width;
-    [SerializeField] private int _height;
-    private Texture2D _texture;
+    [SerializeField] private Brush _brush;
+
+    private TexturePattern _texturePattern;
+
+    private Vector2 _oldPos;
+    private RectTransform _rectTransform;
 
     private void Awake()
     {
-        _width = (int)(_sterWidth * _compression);
-        _height = (int)(_startHeight * _compression);
-
-        _texture = new Texture2D(_width, _height);
-        for(int i=0; i < _width; i++)
+        if(gameObject.TryGetComponent(out RectTransform rectTransform))
         {
-            for(int j=0; j < _height; j++)
-            {
-                _texture.SetPixel(i, j, new Color(0,0,0,0));
-            }
+            _rectTransform = rectTransform;
         }
-        _texture.Apply();
-        _rawImage.texture = _texture;
+        else
+        {
+            this.enabled = false;
+        }
+
+        _texturePattern = new TexturePattern(_width, _height, _compression);
+
+        foreach(var rawIm in _rawImages)
+            rawIm.texture = _texturePattern.Texture;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _texturePattern.UpdateBrushInfo(_brush.Radius, _brush.Color);
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, null, out Vector2 pos))
+        {
+            _texturePattern.DrawAPoint((int)pos.x, (int)pos.y);
+            _oldPos = pos;
+
+            //_texturePattern.ApplyTexture();
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, null, out Vector2 pos))
+        {
+            _texturePattern.DrawALine(_oldPos, pos);
+            _oldPos = pos;
+
+            _texturePattern.ApplyTexture();
+
+        }
     }
 }

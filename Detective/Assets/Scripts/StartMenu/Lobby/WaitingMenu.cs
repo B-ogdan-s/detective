@@ -70,7 +70,6 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
         if(numPlayers == _maxPeople)
         {
             _timer.StopTimer();
-            Debug.Log("1");
             TransitionToTheGameStage();
         }
     }

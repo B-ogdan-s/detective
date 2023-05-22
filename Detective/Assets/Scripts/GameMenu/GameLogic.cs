@@ -15,6 +15,7 @@ public class GameLogic : MonoBehaviour
     public void CheckTheReadinessOfAllPlayers()
     {
         _playrsNum++;
+        Debug.Log(_playrsNum + ") Yes");
         if(_playrsNum == PhotonNetwork.PlayerList.Length)
         {
             _playrsNum = 0;
