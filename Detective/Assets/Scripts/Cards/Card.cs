@@ -11,9 +11,9 @@ public class Card : MonoBehaviour
     [SerializeField] private RawImage _background;
 
     private const string _backgroundPath = "Textures/Background_";
-    private CardInfoClass _cadrInfo;
+    private CardDataClass _cadrInfo;
 
-    public void SetInfo(CardInfoClass info)
+    public void SetInfo(CardDataClass info)
     {
         _cadrInfo = info;
 

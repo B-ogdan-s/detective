@@ -43,7 +43,7 @@ public class Painting : MonoBehaviour, IPointerDownHandler, IDragHandler
             _texturePattern.DrawAPoint((int)pos.x, (int)pos.y);
             _oldPos = pos;
 
-            //_texturePattern.ApplyTexture();
+            _texturePattern.ApplyTexture();
         }
     }
 
@@ -55,7 +55,6 @@ public class Painting : MonoBehaviour, IPointerDownHandler, IDragHandler
             _oldPos = pos;
 
             _texturePattern.ApplyTexture();
-
         }
     }
 }

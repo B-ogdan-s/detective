@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CrimeInfo", menuName = "Crime/CrimeInfo")]
 public class CrimeInfo : ScriptableObject
 {
-    [SerializeField] private EvidenceCardsInfo[] _cardInfos;
+    [SerializeField] private EvidenceCardData[] _cardInfos;
 
-    public EvidenceCardsInfo[] CardInfoClasses => _cardInfos;
+    public EvidenceCardData[] CardInfoClasses => _cardInfos;
 }

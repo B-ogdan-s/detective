@@ -6,7 +6,7 @@ public class ListOfFreeCards : ListCards
 {
     [SerializeField] private TMPro.TextMeshProUGUI _text;
 
-    public override void SetNewList(List<CardInfoClass> cardInfoClasses)
+    public override void SetNewList(List<CardDataClass> cardInfoClasses)
     {
         base.SetNewList(cardInfoClasses);
         _text.text = cardInfoClasses.Count.ToString();

@@ -52,8 +52,6 @@ public class TexturePattern
 
         for (int i = 1; i <= deltaStep; i++)
         {
-            //int w = (int)((start.x + (x * i)) * _compression + (_width / 2));
-            //int h = (int)((start.y + (y * i)) * _compression + (_height / 2));
             DrawAPoint((int)(start.x + (x * i)), (int)(start.y + (y * i)));
         }
 

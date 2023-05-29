@@ -32,7 +32,7 @@ public class CrimeManager : MonoBehaviour
 
         GameInfo gameInfo = new GameInfo();
 
-        gameInfo.CardInfos = new CardInfoClass[_gameCrime.CardInfoClasses.Length];
+        gameInfo.CardInfos = new CardDataClass[_gameCrime.CardInfoClasses.Length];
         
         for(int i = 0; i < _gameCrime.CardInfoClasses.Length; i++)
         {
@@ -48,7 +48,7 @@ public class CrimeManager : MonoBehaviour
 }
 public class GameInfo
 {
-    public CardInfoClass[] CardInfos;
+    public CardDataClass[] CardInfos;
 
 }
 

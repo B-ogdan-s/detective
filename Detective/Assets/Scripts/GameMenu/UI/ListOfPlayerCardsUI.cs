@@ -27,9 +27,9 @@ public class ListOfPlayerCardsUI : MonoBehaviour
         _cardsPool.DisablePool();
     }
 
-    public void SpawnCards(List<CardInfoClass> cardsInfo)
+    public void SpawnCards(List<CardDataClass> cardsInfo)
     {
-        foreach (CardInfoClass cardinfo in cardsInfo)
+        foreach (CardDataClass cardinfo in cardsInfo)
         {
             Card newCard = _cardsPool.GetPool();
             newCard.SetInfo(cardinfo);

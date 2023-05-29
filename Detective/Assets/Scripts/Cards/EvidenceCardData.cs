@@ -1,16 +1,16 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Evidence Cards", menuName = "Cards/Evidence Cards")]
-public class EvidenceCardsInfo : ScriptableObject
+public class EvidenceCardData : ScriptableObject
 {
-    [SerializeField] private CardInfoClass _cardInfoClass;
+    [SerializeField] private CardDataClass _cardInfoClass;
 
-    public CardInfoClass CardInfoClass => _cardInfoClass;
+    public CardDataClass CardInfoClass => _cardInfoClass;
 }
 
 
 [System.Serializable]
-public class CardInfoClass
+public class CardDataClass
 {
     [Min(1)] public byte Price;
 

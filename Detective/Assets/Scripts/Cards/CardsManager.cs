@@ -10,11 +10,11 @@ public class CardsManager : MonoBehaviour
     [SerializeField] private ListCards _listOfFreeCards;
     [SerializeField] private PhotonView _photonView;
 
-    private List<CardInfoClass> _cardsList = new List<CardInfoClass>();
-    private List<CardInfoClass> _freeCardList = new List<CardInfoClass>();
-    private List<CardInfoClass> _exidCardsList = new List<CardInfoClass>();
+    private List<CardDataClass> _cardsList = new List<CardDataClass>();
+    private List<CardDataClass> _freeCardList = new List<CardDataClass>();
+    private List<CardDataClass> _exidCardsList = new List<CardDataClass>();
 
-    private Dictionary<string, List<CardInfoClass>> _playerCards = new Dictionary<string, List<CardInfoClass>>();
+    private Dictionary<string, List<CardDataClass>> _playerCards = new Dictionary<string, List<CardDataClass>>();
 
     private const string _pathCard = "Info/EvidenceCards";
    
@@ -24,14 +24,14 @@ public class CardsManager : MonoBehaviour
 
         foreach(var player in PhotonNetwork.PlayerList)
         {
-            List<CardInfoClass> cards = new List<CardInfoClass>();
+            List<CardDataClass> cards = new List<CardDataClass>();
             for(int i = 0; i < _numberOfIssuedCards; i++)
             {
                 int id = Random.Range(0, _cardsList.Count);
                 cards.Add(_cardsList[id]);
                 _cardsList.Remove(cards[i]);
             }
-            CardInfoClass[] cardsArray = cards.ToArray(); 
+            CardDataClass[] cardsArray = cards.ToArray(); 
 
             GameInfo newGameInfo = new GameInfo();
             newGameInfo.CardInfos = cardsArray;
@@ -64,7 +64,7 @@ public class CardsManager : MonoBehaviour
 
         foreach(var player in PhotonNetwork.PlayerList)
         {
-            _playerCards.Add(player.UserId, new List<CardInfoClass>());
+            _playerCards.Add(player.UserId, new List<CardDataClass>());
         }
 
         _photonView.RPC("CheckTheReadinessOfAllPlayers", RpcTarget.MasterClient);
@@ -76,8 +76,8 @@ public class CardsManager : MonoBehaviour
     {
         GameInfo cardInfoClasses = JsonUtility.FromJson<GameInfo>(jsonCardInfo);
         _playerCards.Remove(playerId);
-        List<CardInfoClass> cards = new List<CardInfoClass>();
-        foreach (CardInfoClass cardInfoClass in cardInfoClasses.CardInfos)
+        List<CardDataClass> cards = new List<CardDataClass>();
+        foreach (CardDataClass cardInfoClass in cardInfoClasses.CardInfos)
             cards.Add(cardInfoClass);
         _playerCards.Add(playerId, cards);
 
@@ -93,7 +93,7 @@ public class CardsManager : MonoBehaviour
     {
         foreach(var player in PhotonNetwork.PlayerList)
         {
-            List<CardInfoClass> cardInfoClasses = _playerCards.GetValueOrDefault(player.UserId);
+            List<CardDataClass> cardInfoClasses = _playerCards.GetValueOrDefault(player.UserId);
             foreach (var card in cardInfoClasses)
                 _exidCardsList.Add(card);
         }
