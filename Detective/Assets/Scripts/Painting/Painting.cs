@@ -17,6 +17,21 @@ public class Painting : MonoBehaviour, IPointerDownHandler, IDragHandler
     private Vector2 _oldPos;
     private RectTransform _rectTransform;
 
+    public TexturePattern Texture
+    {
+        set
+        {
+            if(value == null)
+                _texturePattern = new TexturePattern(_width, _height, _compression);
+            else
+                _texturePattern = value;
+
+            foreach (var rawIm in _rawImages)
+                rawIm.texture = _texturePattern.Texture;
+        }
+        get { return _texturePattern; }
+    }
+
     private void Awake()
     {
         if(gameObject.TryGetComponent(out RectTransform rectTransform))

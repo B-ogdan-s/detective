@@ -65,8 +65,6 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
             _timer.StopTimer();
         }
 
-        Debug.Log(numPlayers + ";    "  + _maxPeople);
-
         if(numPlayers == _maxPeople)
         {
             _timer.StopTimer();
@@ -83,7 +81,6 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_TransitionToTheGameStage()
     {
-        Debug.Log("Fack!!!");
         PhotonNetwork.LoadLevel(_sceneName);
     }
 

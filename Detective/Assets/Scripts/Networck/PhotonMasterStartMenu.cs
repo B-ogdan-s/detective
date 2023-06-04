@@ -83,6 +83,7 @@ public class PhotonMasterStartMenu : MonoBehaviourPunCallbacks
     {
         JoinRoomAction?.Invoke();
         _networkUI.CloseAll();
+
         PlayerData.GameComplexity = (GameComplexity)PhotonNetwork.CurrentRoom.CustomProperties["complexity"];
     }
     public override void OnJoinedRoom()

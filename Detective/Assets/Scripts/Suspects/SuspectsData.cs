@@ -13,6 +13,9 @@ public class SuspectsData : ScriptableObject
     [Tooltip("example: \" 01.01.1980 \"")]
     [SerializeField] private string _dateOfBirth;
     [SerializeField] private Motive[] _motives;
+
+    public string Name => _name;
+    public string DateOfBirth => _dateOfBirth;
 }
 
 [System.Serializable]

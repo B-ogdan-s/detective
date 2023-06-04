@@ -21,15 +21,20 @@ public class TexturePattern
         _width = (int)(width * _compression);
         _height = (int)(height * _compression);
 
+        CreateTexture();
+    }
+
+    private void CreateTexture()
+    {
         _texture = new Texture2D(_width, _height);
         _texture.filterMode = FilterMode.Point;
         _texture.wrapMode = TextureWrapMode.Clamp;
 
-        for(int i=0; i < _width; i++)
+        for (int i = 0; i < _width; i++)
         {
-            for(int j=0; j < _height; j++)
+            for (int j = 0; j < _height; j++)
             {
-                _texture.SetPixel(i, j, new Color(0,0,0,0));
+                _texture.SetPixel(i, j, new Color(0, 0, 0, 0));
             }
         }
         _texture.Apply();
@@ -56,7 +61,6 @@ public class TexturePattern
         }
 
     }
-
     public void DrawAPoint(int posX, int posY)
     {
         posX = (int)(posX * _compression + (_width / 2));
@@ -86,7 +90,6 @@ public class TexturePattern
     {
         _texture.Apply();
     }
-
     private bool CheckRadius(int w, int h, float r)
     {
         float d = Mathf.Sqrt(w * w + h * h);
