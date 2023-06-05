@@ -6,7 +6,7 @@ using Photon.Realtime;
 public class WaitingMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI _playersText;
-    [SerializeField] private LobyTimer _timer;
+    [SerializeField] private NetworkTimer _timer;
     [SerializeField] private string _sceneName;
 
     Photon.Realtime.Room _room;
@@ -75,12 +75,6 @@ public class WaitingMenu : MonoBehaviourPunCallbacks
     private void TransitionToTheGameStage()
     {
         _room.IsVisible = false;
-        photonView.RPC("RPC_TransitionToTheGameStage", RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void RPC_TransitionToTheGameStage()
-    {
         PhotonNetwork.LoadLevel(_sceneName);
     }
 

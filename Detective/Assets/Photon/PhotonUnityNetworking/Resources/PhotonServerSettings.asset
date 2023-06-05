@@ -50,6 +50,9 @@ MonoBehaviour:
   - RPC_ClearPlayerCards
   - RPC_SetPlayerCartInfo
   - RPC_SetPlayerCardInfo
+  - StartTimer
+  - RPC_SetFirstPlayer
+  - RPC_StartTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

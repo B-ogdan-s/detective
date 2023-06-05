@@ -1556,6 +1556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbeac322a788250488396e653073e6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timerObj: {fileID: 1665917164}
   _timerText: {fileID: 1665917166}
   _timerValue: 45
 --- !u!114 &210404948
@@ -2946,7 +2947,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1192164991}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -7866,8 +7867,8 @@ RectTransform:
   - {fileID: 2135033757}
   - {fileID: 285123725}
   - {fileID: 332512618}
-  - {fileID: 1377909394}
   - {fileID: 342324991}
+  - {fileID: 1377909394}
   - {fileID: 874287844}
   - {fileID: 1568349305}
   - {fileID: 1626613976}

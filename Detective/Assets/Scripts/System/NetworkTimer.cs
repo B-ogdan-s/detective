@@ -3,12 +3,22 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class LobyTimer : MonoBehaviour, IPunObservable
+public class NetworkTimer : MonoBehaviour, IPunObservable
 {
+    [SerializeField] private GameObject _timerObj;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField, Min(0)] private byte _timerValue;
 
     private byte _time;
+
+    public byte TimerValue
+    {
+        set
+        {
+            if(value > 0)
+                _timerValue = value;
+        }
+    }
 
     public System.Action EndTimer;
 
@@ -24,7 +34,6 @@ public class LobyTimer : MonoBehaviour, IPunObservable
             _time = value; 
             if(value == 0 && PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("2");
                 EndTimer?.Invoke();
             }
         }
@@ -34,6 +43,7 @@ public class LobyTimer : MonoBehaviour, IPunObservable
 
     private void Awake()
     {
+        _timerObj?.SetActive(false);
         _timerText.gameObject.SetActive(false);
     }
 
@@ -52,6 +62,7 @@ public class LobyTimer : MonoBehaviour, IPunObservable
 
     public void StartTimer()
     {
+        _timerObj?.SetActive(true);
         _timerText.gameObject.SetActive(true);
         if(_timerCoroutine == null)
         {
@@ -61,6 +72,7 @@ public class LobyTimer : MonoBehaviour, IPunObservable
     }
     public void StopTimer()
     {
+        _timerObj?.SetActive(false);
         _timerText.gameObject.SetActive(false);
         if(_timerCoroutine != null)
         {
